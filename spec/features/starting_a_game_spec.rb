@@ -152,7 +152,129 @@ feature 'Playing against human opponent' do
     fill_in "location5", with: "J1"
     select "horizontally", :from => "direction5"
     click_button 'Place'
-    click_button "Player 1"
-    expect(page).to have_content "Player 1's turn"
+    click_link 'Player 2'
+    expect(page).to have_content "Player 2's turn"
+  end
+  scenario "a player can take a turn" do
+    visit '/name_set'
+    click_button 'Submit'
+    click_link "PVP"
+    click_button 'Submit'
+    fill_in "location1", with: "A1"
+    select "vertically", :from => "direction1"
+    fill_in "location2", with: "D5"
+    select "horizontally", :from => "direction2"
+    fill_in "location3", with: "C1"
+    select "vertically", :from => "direction3"
+    fill_in "location4", with: "I5"
+    select "horizontally", :from => "direction4"
+    fill_in "location5", with: "J1"
+    select "horizontally", :from => "direction5"
+    click_button 'Place'
+    fill_in "location1", with: "A1"
+    select "vertically", :from => "direction1"
+    fill_in "location2", with: "D5"
+    select "horizontally", :from => "direction2"
+    fill_in "location3", with: "C1"
+    select "vertically", :from => "direction3"
+    fill_in "location4", with: "I5"
+    select "horizontally", :from => "direction4"
+    fill_in "location5", with: "J1"
+    select "horizontally", :from => "direction5"
+    click_button 'Place'
+    click_link "Player 1"
+    fill_in "coordinates", with: "A1"
+    click_button 'Fire'
+    expect(page).to have_content "hit"
+    expect(page).to have_content "Player 2's turn"
+  end
+  scenario "a player can win the game" do
+    visit '/name_set'
+    click_button 'Submit'
+    click_link "PVP"
+    click_button 'Submit'
+    fill_in "location1", with: "A1"
+    select "vertically", :from => "direction1"
+    fill_in "location2", with: "D5"
+    select "horizontally", :from => "direction2"
+    fill_in "location3", with: "C1"
+    select "vertically", :from => "direction3"
+    fill_in "location4", with: "I5"
+    select "horizontally", :from => "direction4"
+    fill_in "location5", with: "J1"
+    select "horizontally", :from => "direction5"
+    click_button 'Place'
+    fill_in "location1", with: "A1"
+    select "vertically", :from => "direction1"
+    fill_in "location2", with: "D5"
+    select "horizontally", :from => "direction2"
+    fill_in "location3", with: "C1"
+    select "vertically", :from => "direction3"
+    fill_in "location4", with: "I5"
+    select "horizontally", :from => "direction4"
+    fill_in "location5", with: "J1"
+    select "horizontally", :from => "direction5"
+    click_button 'Place'
+    click_link "Player 1"
+    fill_in "coordinates", with: "A1"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A1"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A2"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A2"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A3"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A3"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A4"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A4"
+    click_button 'Fire'
+    fill_in "coordinates", with: "A5"
+    click_button "Fire"
+    expect(page).to have_content "sunk"
+    fill_in "coordinates", with: "A5"
+    click_button "Fire"
+    fill_in "coordinates", with: "j1"
+    click_button 'Fire'
+    fill_in "coordinates", with: "j1"
+    click_button 'Fire'
+    fill_in "coordinates", with: "d5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "d5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "e5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "e5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "f5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "f5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "g5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "g5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "C1"
+    click_button 'Fire'
+    fill_in "coordinates", with: "C1"
+    click_button 'Fire'
+    fill_in "coordinates", with: "C2"
+    click_button 'Fire'
+    fill_in "coordinates", with: "C2"
+    click_button 'Fire'
+    fill_in "coordinates", with: "C3"
+    click_button 'Fire'
+    fill_in "coordinates", with: "C3"
+    click_button 'Fire'
+    fill_in "coordinates", with: "I5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "I5"
+    click_button 'Fire'
+    fill_in "coordinates", with: "J5"
+    click_button 'Fire'
+    expect(page).to have_content "Congratulations Player 1 wins!"
   end
 end
