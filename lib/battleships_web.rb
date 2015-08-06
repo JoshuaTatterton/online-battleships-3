@@ -43,20 +43,29 @@ class BattleshipsWeb < Sinatra::Base
   end
   
   post "/pvp/placeships" do
-    session[:game].player_1.place_ship Ship.aircraft_carrier, params[:location1].capitalize.to_sym, params[:direction1].to_sym
-    session[:game].player_1.place_ship Ship.battleship, params[:location2].capitalize.to_sym, params[:direction2].to_sym
-    session[:game].player_1.place_ship Ship.cruiser, params[:location3].capitalize.to_sym, params[:direction3].to_sym
-    session[:game].player_1.place_ship Ship.destroyer, params[:location4].capitalize.to_sym, params[:direction4].to_sym
-    session[:game].player_1.place_ship Ship.submarine, params[:location5].capitalize.to_sym, params[:direction5].to_sym
+    p1 = session[:game].player_1.board.ships.map { |x| (x.type) }
+    p2 = session[:game].player_2.board.ships.map { |x| (x.type) }
+    if !p1.include?(:submarine)
+      p = p1
+    else
+      p = p2
+    end
+    if !p.include?(:aircraft_carrier)
+      p1.include?(:aircraft_carrier) ? (session[:game].player_2.place_ship Ship.aircraft_carrier, params[:location].capitalize.to_sym, params[:direction].to_sym) : (session[:game].player_1.place_ship Ship.aircraft_carrier, params[:location].capitalize.to_sym, params[:direction].to_sym)
+    elsif !p.include?(:battleship)
+      p1.include?(:battleship) ? (session[:game].player_2.place_ship Ship.battleship, params[:location].capitalize.to_sym, params[:direction].to_sym) : (session[:game].player_1.place_ship Ship.battleship, params[:location].capitalize.to_sym, params[:direction].to_sym)
+    elsif !p.include?(:cruiser)
+      p1.include?(:cruiser) ? (session[:game].player_2.place_ship Ship.cruiser, params[:location].capitalize.to_sym, params[:direction].to_sym) : (session[:game].player_1.place_ship Ship.cruiser, params[:location].capitalize.to_sym, params[:direction].to_sym)
+    elsif !p.include?(:destroyer)
+      p1.include?(:destroyer) ? (session[:game].player_2.place_ship Ship.destroyer, params[:location].capitalize.to_sym, params[:direction].to_sym) : (session[:game].player_1.place_ship Ship.destroyer, params[:location].capitalize.to_sym, params[:direction].to_sym)
+    else
+      session[:game].player_1.place_ship Ship.submarine, params[:location].capitalize.to_sym, params[:direction].to_sym
+    end
     erb :place_ships
   end
   
   post "/pvp/play" do
-    session[:game].player_2.place_ship Ship.aircraft_carrier, params[:location1].capitalize.to_sym, params[:direction1].to_sym
-    session[:game].player_2.place_ship Ship.battleship, params[:location2].capitalize.to_sym, params[:direction2].to_sym
-    session[:game].player_2.place_ship Ship.cruiser, params[:location3].capitalize.to_sym, params[:direction3].to_sym
-    session[:game].player_2.place_ship Ship.destroyer, params[:location4].capitalize.to_sym, params[:direction4].to_sym
-    session[:game].player_2.place_ship Ship.submarine, params[:location5].capitalize.to_sym, params[:direction5].to_sym
+    session[:game].player_2.place_ship Ship.submarine, params[:location].capitalize.to_sym, params[:direction].to_sym
     erb :play
   end
 

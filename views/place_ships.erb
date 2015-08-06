@@ -8,45 +8,47 @@
       <% end %>
     <% end %>
       <h2> <%= session[:player1] %> VS <%= session[:player2] %> </h2>
-    <br> <% if (session[:game].own_board_view (session[:game].player_1)) == (session[:game].opponent_board_view (session[:game].player_2)) %>
-    <%= session[:player1] %> please select ship locations.
-    <br />
-    <form action="/pvp/placeships" method="post">
+      <% p1 = session[:game].player_1.board.ships.map { |x| (x.type) } %> 
+      <% p2 = session[:game].player_2.board.ships.map { |x| (x.type) } %>
+    <br><br> 
+    <% if !p1.include?(:submarine) %>
+      <pre> <%= session[:game].own_board_view(session[:game].player_1) %> </pre>
+      <br><br>
+      <%= session[:player1] %> please select ship locations.
+      <% p = p1 %>
+      <form action="/pvp/placeships" method="post">
+
+    <% elsif !p2.include?(:destroyer) %>
+      <pre> <%= session[:game].own_board_view(session[:game].player_2) %> </pre>
+      <br><br>
+      <%= session[:player2] %> please select ship locations.
+      <% p = p2 %>
+      <form action="/pvp/placeships" method="post">
+
+    <% else %>
+      <pre> <%= session[:game].own_board_view(session[:game].player_2) %> </pre>
+      <br><br>
+      <%= session[:player2] %> please select ship locations.
+      <% p = p2 %>
+      <form action="/pvp/play" method="post"> 
+    <% end %>
+
+      <% if !p.include?(:aircraft_carrier)%>
+        Aircraft Carrier: 
+      <% elsif !p.include?(:battleship) %>
+        Battleship: 
+      <% elsif !p.include?(:cruiser) %>
+        Cruiser: 
+      <% elsif !p.include?(:destroyer) %>
+        Destroyer: 
       <% else %>
-    <%= session[:player2] %> please select ship locations.
-    <br />
-    <form action="/pvp/play" method="post"> 
-      <% end %>  
-      Aircraft Carrier: 
-      <input type="password" name="location1">
-      <select name="direction1">
+        Submarine: 
+      <% end %>
+      <input type="text" name="location">
+      <select name="direction">
       <option value = "horizontally">horizontally</option>
       <option value = "vertically">vertically</option>
       </select><br>
-      Battleship: 
-      <input type="password" name="location2">
-      <select name="direction2">
-      <option value = "horizontally">horizontally</option>
-      <option value = "vertically">vertically</option>
-      </select><br>
-      Cruiser: 
-      <input type="password" name="location3">
-      <select name="direction3">
-      <option value = "horizontally">horizontally</option>
-      <option value = "vertically">vertically</option>
-      </select><br>  
-      Destroyer: 
-      <input type="password" name="location4">
-      <select name="direction4">
-      <option value = "horizontally">horizontally</option>
-      <option value = "vertically">vertically</option>
-      </select><br> 
-      Submarine: 
-      <input type="password" name="location5">
-      <select name="direction5">
-      <option value = "horizontally">horizontally</option>
-      <option value = "vertically">vertically</option>
-      </select><br>      
       <input type="submit" value ="Place">      
     </form>
       </center>

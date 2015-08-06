@@ -73,20 +73,24 @@ feature 'Playing against human opponent' do
     click_button 'Submit'
     expect(page).to have_content "Player 1 please select ship locations."
     expect(page).to have_content "Aircraft Carrier: "
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Battleship: "
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Cruiser: "
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Destroyer: "
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Submarine: "
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
     click_button 'Place'
     expect(page).to have_content "Player 2 please select ship locations."
   end
@@ -95,33 +99,41 @@ feature 'Playing against human opponent' do
     click_button 'Submit'
     click_link "PVP"
     click_button 'Submit'
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
     click_button 'Place'
     expect(page).to have_content "Player 2 please select ship locations."
     expect(page).to have_content "Aircraft Carrier: "
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Battleship: "
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Cruiser: "
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Destroyer: "
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
     expect(page).to have_content "Submarine: "
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
     click_button 'Place'
     expect(page).to have_content "Who will fire first?"
   end
@@ -130,27 +142,35 @@ feature 'Playing against human opponent' do
     click_button 'Submit'
     click_link "PVP"
     click_button 'Submit'
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
     click_button 'Place'
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
     click_button 'Place'
     click_link 'Player 2'
     expect(page).to have_content "Player 2's turn"
@@ -160,27 +180,35 @@ feature 'Playing against human opponent' do
     click_button 'Submit'
     click_link "PVP"
     click_button 'Submit'
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
     click_button 'Place'
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
     click_button 'Place'
     click_link "Player 1"
     fill_in "coordinates", with: "A1"
@@ -193,27 +221,35 @@ feature 'Playing against human opponent' do
     click_button 'Submit'
     click_link "PVP"
     click_button 'Submit'
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
     click_button 'Place'
-    fill_in "location1", with: "A1"
-    select "vertically", :from => "direction1"
-    fill_in "location2", with: "D5"
-    select "horizontally", :from => "direction2"
-    fill_in "location3", with: "C1"
-    select "vertically", :from => "direction3"
-    fill_in "location4", with: "I5"
-    select "horizontally", :from => "direction4"
-    fill_in "location5", with: "J1"
-    select "horizontally", :from => "direction5"
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "A1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "D5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "C1"
+    select "vertically", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "I5"
+    select "horizontally", :from => "direction"
+    click_button 'Place'
+    fill_in "location", with: "J1"
+    select "horizontally", :from => "direction"
     click_button 'Place'
     click_link "Player 1"
     fill_in "coordinates", with: "A1"
