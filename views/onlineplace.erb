@@ -1,0 +1,34 @@
+<div>
+  <center>
+      <% p2 = ($game).player_2.board.ships.map { |x| (x.type) } %>
+    Please select ship location.
+    <br><pre> <%= $game.own_board_view(($game).player_1) %> </pre><br>
+    <% if !(@p).include?(:destroyer) %>
+      
+      <form action="/online/p1place" method="post">
+
+    <% else %>
+
+      <form action="/online/playp1" method="post"> 
+    <% end %>
+
+      <% if !(@p).include?(:aircraft_carrier)%>
+        Aircraft Carrier: 
+      <% elsif !(@p).include?(:battleship) %>
+        Battleship: 
+      <% elsif !(@p).include?(:cruiser) %>
+        Cruiser: 
+      <% elsif !(@p).include?(:destroyer) %>
+        Destroyer: 
+      <% else %>
+        Submarine: 
+      <% end %>
+      <input type="text" name="location">
+      <select name="direction">
+      <option value = "horizontally">horizontally</option>
+      <option value = "vertically">vertically</option>
+      </select><br>
+      <input type="submit" value ="Place">      
+    </form>
+      </center>
+    </div>

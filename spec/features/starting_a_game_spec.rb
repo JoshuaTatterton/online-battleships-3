@@ -9,308 +9,220 @@ feature 'Starting a new game' do
     fill_in "name", with: our_name
     click_button 'Submit'
     expect(page).to have_content "Hello, #{our_name}"
+    $players = 0
   end
   scenario 'Gives default name if none submitted' do
-    visit '/name_set'
+    visit '/'
+    click_link 'New Game'
     click_button 'Submit'
     expect(page).to have_content "Hello, Player 1"
+    $players = 0
   end
   scenario "I can choose to start a game against a computer" do
     visit '/name_set'
     click_button 'Submit'
     click_link "VS Computer"
     expect(page).to have_content "Enter coordinates to fire upon"
+    $players = 0
   end
-  scenario "I can start a game against a human opponent" do
+  scenario "I can start a local game against a human opponent" do
     visit '/name_set'
     click_button 'Submit'
-    click_link "PVP"
+    click_link "PVP Local"
     expect(page).to have_content "What is player 2's name?"
     our_name="Josh"
     fill_in "name", with: our_name
     click_button 'Submit'
     expect(page).to have_content "Player 1 VS #{our_name}"
+    $players = 0
+  end
+  scenario "I can start a online game against an opponent" do
+    visit '/name_set'
+    click_button 'Submit'
+    click_link "PVP Online"
+    expect(page).to have_content "Welcome Player 1, please place your ships while waiting for a second player to join."
+    click_link "Place Ships"
+    expect(page).to have_content "Please select ship location."
+    visit "/name_set"
+    click_button "Submit"
+    click_link "PVP Online"
+    expect(page).to have_content "Welcome Player 2, we've been waiting for you."
+    click_link "Place Ships"
+    expect(page).to have_content "Please select ship location."
+    $players = 0
   end
 end
 feature 'Playing against computer' do
   scenario 'I can enter coordinates' do
     visit '/play'
-    fill_in "coordinates", with: "A1"
-    click_button 'Fire'
+    fire "A1"
     expect(page).to have_content "hit"
-    fill_in "coordinates", with: "I7"
-    click_button 'Fire'
+    fire "I7"
     expect(page).to have_content "miss"
   end
   scenario 'I can win' do
     visit '/play'
-    fill_in "coordinates", with: "A1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "B1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C1"
-    click_button 'Fire'
+    fire "A1"
+    fire "B1"
+    fire "C1"
     expect(page).to have_content "Congratulations. You win!"
   end
   scenario 'I can start a new game after game ended' do
     visit '/play'
-    fill_in "coordinates", with: "A1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "B1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C1"
-    click_button 'Fire'
+    fire "A1"
+    fire "B1"
+    fire "C1"
     expect(page).to have_link "New Game"
     click_link "New Game"
     expect(page).to have_content "Are you ready to play Battleships?"
   end
 end
-feature 'Playing against human opponent' do
+feature 'Playing against local human opponent' do
   scenario 'Player 1 can place ships' do
+    $players = 0
     visit '/name_set'
     click_button 'Submit'
-    click_link "PVP"
+    click_link "PVP Local"
     click_button 'Submit'
     expect(page).to have_content "Player 1 please select ship locations."
     expect(page).to have_content "Aircraft Carrier: "
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
+    placev "A1"
     expect(page).to have_content "Battleship: "
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placeh "D5"
     expect(page).to have_content "Cruiser: "
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
+    placev "C1"
     expect(page).to have_content "Destroyer: "
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placeh "I5"
     expect(page).to have_content "Submarine: "
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placeh "J1"
     expect(page).to have_content "Player 2 please select ship locations."
   end
   scenario 'Player 2 can place ships' do
+    $players = 0
     visit '/name_set'
     click_button 'Submit'
-    click_link "PVP"
+    click_link "PVP Local"
     click_button 'Submit'
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placev "A1"
+    placeh "D5"
+    placev "C1"
+    placeh "I5"
+    placeh "J1"
     expect(page).to have_content "Player 2 please select ship locations."
     expect(page).to have_content "Aircraft Carrier: "
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
+    placev "A1"
     expect(page).to have_content "Battleship: "
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placeh "D5"
     expect(page).to have_content "Cruiser: "
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
+    placev "C1"
     expect(page).to have_content "Destroyer: "
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placeh"I5"
     expect(page).to have_content "Submarine: "
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placeh "J1"
     expect(page).to have_content "Who will fire first?"
   end
   scenario "can select who goes first" do
+    $players = 0
     visit '/name_set'
     click_button 'Submit'
-    click_link "PVP"
+    click_link "PVP Local"
     click_button 'Submit'
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placev "A1"
+    placeh "D5"
+    placev "C1"
+    placeh "I5"
+    placeh "J1"
+    placev "A1"
+    placeh "D5"
+    placev "C1"
+    placeh "I5"
+    placeh "J1"
     click_link 'Player 2'
     expect(page).to have_content "Player 2's turn"
   end
   scenario "a player can take a turn" do
+    $players = 0
     visit '/name_set'
     click_button 'Submit'
-    click_link "PVP"
+    click_link "PVP Local"
     click_button 'Submit'
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placev "A1"
+    placeh "D5"
+    placev "C1"
+    placeh "I5"
+    placeh "J1"
+    placev "A1"
+    placeh "D5"
+    placev "C1"
+    placeh "I5"
+    placeh "J1"
     click_link "Player 1"
-    fill_in "coordinates", with: "A1"
-    click_button 'Fire'
+    fire "A1"
     expect(page).to have_content "hit"
     expect(page).to have_content "Player 2's turn"
   end
   scenario "a player can win the game" do
+    $players = 0
     visit '/name_set'
     click_button 'Submit'
-    click_link "PVP"
+    click_link "PVP Local"
     click_button 'Submit'
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "A1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "D5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "C1"
-    select "vertically", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "I5"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
-    fill_in "location", with: "J1"
-    select "horizontally", :from => "direction"
-    click_button 'Place'
+    placev "A1"
+    placeh "D5"
+    placev "C1"
+    placeh "I5"
+    placeh "J1"
+    placev "A1"
+    placeh "D5"
+    placev "C1"
+    placeh "I5"
+    placeh "J1"
     click_link "Player 1"
-    fill_in "coordinates", with: "A1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A2"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A2"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A3"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A3"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A4"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A4"
-    click_button 'Fire'
-    fill_in "coordinates", with: "A5"
-    click_button "Fire"
+    fire "A1"
+    fire "A1"
+    fire "A2"
+    fire "A2"
+    fire "A3"
+    fire "A3"
+    fire "A4"
+    fire "A4"
+    fire "A5"
     expect(page).to have_content "sunk"
-    fill_in "coordinates", with: "A5"
-    click_button "Fire"
-    fill_in "coordinates", with: "j1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "j1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "d5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "d5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "e5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "e5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "f5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "f5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "g5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "g5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C1"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C2"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C2"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C3"
-    click_button 'Fire'
-    fill_in "coordinates", with: "C3"
-    click_button 'Fire'
-    fill_in "coordinates", with: "I5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "I5"
-    click_button 'Fire'
-    fill_in "coordinates", with: "J5"
-    click_button 'Fire'
+    fire "A5"
+    fire "j1"
+    fire "j1"
+    fire "d5"
+    fire "d5"
+    fire "e5"
+    fire "e5"
+    fire "f5"
+    fire "f5"
+    fire "g5"
+    fire "g5"
+    fire "C1"
+    fire"C1"
+    fire"C2"
+    fire"C2"
+    fire"C3"
+    fire "C3"
+    fire "I5"
+    fire "I5"
+    fire "J5"
     expect(page).to have_content "Congratulations Player 1 wins!"
   end
+end
+def placev coord
+  fill_in "location", with: coord
+  select "vertically", :from => "direction"
+  click_button 'Place'
+end
+def placeh coord
+  fill_in "location", with: coord
+  select "horizontally", :from => "direction"
+  click_button 'Place'
+end
+
+def fire coord
+  fill_in "coordinates", with: coord
+  click_button 'Fire'
 end

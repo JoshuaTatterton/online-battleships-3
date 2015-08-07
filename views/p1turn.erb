@@ -6,6 +6,7 @@
     <% end %><br><br>
     <% if session[:game].has_winner? %>
       <br> Congratulations <%= session[:player2] %> wins!
+      <% $players -= 2 %>
       <br> <a href="/">New Game</a>
     <% else %>
       <pre> <%= session[:game].opponent_board_view(session[:game].player_1) %> </pre>

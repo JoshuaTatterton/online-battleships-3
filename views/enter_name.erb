@@ -1,15 +1,16 @@
 <div>
   <center>
   <% if @name %>
+      <% $players += 1 %>
       <% if @name != "" %>
         <b><u>Hello, <%= @name %></u></b>
-        <% session[:player1] = @name %>
+        <% session["player#{$players}"] = @name %>
       <% else %>
-        <b><u>Hello, Player 1</u></b>
-        <% session[:player1] = "Player 1" %>
+        <b><u>Hello, <%= session["player#{$players}"] = "Player #{$players}" %></u></b>
       <% end %>
     <br><a href="/play">VS Computer</a>
-    <br><a href="/pvp">PVP</a>
+    <br><a href="/pvp">PVP Local</a>
+    <br><a href="/online">PVP Online</a>
     <% else %>
       <h2> Let's get started - What's your name? </h2>
       <form action="/name_set">

@@ -8,7 +8,7 @@ class BattleshipsWeb < Sinatra::Base
     set :bind, '0.0.0.0'
     set :port, 3000
   end
-
+  $players = 0
   enable :sessions
   set :views, proc { File.join(root, '..', 'views') }
 
@@ -19,6 +19,37 @@ class BattleshipsWeb < Sinatra::Base
   get '/name_set' do
     @name = params[:name]
     erb :enter_name
+  end
+
+  get "/online" do
+    erb :online
+  end
+
+  get "/online/p1place" do
+    @p=($game).player_1.board.ships.map { |x| (x.type) }
+    erb :onlineplace
+  end
+
+  get "/online/p2place" do
+    @p=($game).player_2.board.ships.map { |x| (x.type) }
+    erb :onlineplace
+  end
+  
+  post "/online/p1place" do
+    @p=($game).player_1.board.ships.map { |x| (x.type) }
+    
+    if !(@p).include?(:aircraft_carrier)
+      ($game).player_1.place_ship Ship.aircraft_carrier, params[:location].capitalize.to_sym, params[:direction].to_sym
+    elsif !(@p).include?(:battleship)
+      ($game).player_1.place_ship Ship.battleship, params[:location].capitalize.to_sym, params[:direction].to_sym
+    elsif !(@p).include?(:cruiser)
+      ($game).player_1.place_ship Ship.cruiser, params[:location].capitalize.to_sym, params[:direction].to_sym
+    elsif !(@p).include?(:destroyer)
+      ($game).player_1.place_ship Ship.destroyer, params[:location].capitalize.to_sym, params[:direction].to_sym
+    else
+      ($game).player_1.place_ship Ship.submarine, params[:location].capitalize.to_sym, params[:direction].to_sym
+    end
+    erb :onlineplace
   end
 
   get '/play' do   
