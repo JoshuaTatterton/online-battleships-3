@@ -80,7 +80,8 @@ end
 feature 'Playing against local human opponent' do
   scenario 'Player 1 can place ships' do
     $players = 0
-    visit '/name_set'
+    visit '/'
+    click_link 'New Game'
     click_button 'Submit'
     click_link "PVP Local"
     click_button 'Submit'
@@ -99,7 +100,8 @@ feature 'Playing against local human opponent' do
   end
   scenario 'Player 2 can place ships' do
     $players = 0
-    visit '/name_set'
+    visit '/'
+    click_link 'New Game'
     click_button 'Submit'
     click_link "PVP Local"
     click_button 'Submit'
@@ -211,6 +213,46 @@ feature 'Playing against local human opponent' do
     expect(page).to have_content "Congratulations Player 1 wins!"
   end
 end
+feature "playing online" do
+  scenario "players can place ships" do
+    $players = 0
+    visit '/'
+    click_link 'New Game'
+    click_button 'Submit'
+    click_link "PVP Online"
+    click_link "Place Ships"
+    expect(page).to have_content "Please select ship location."
+    expect(page).to have_content "Aircraft Carrier: "
+    placev "A1"
+    expect(page).to have_content "Battleship: "
+    placeh "D5"
+    expect(page).to have_content "Cruiser: "
+    placev "C1"
+    expect(page).to have_content "Destroyer: "
+    placeh "I5"
+    expect(page).to have_content "Submarine: "
+    placeh "J1"
+    expect(page).to have_content "Please wait until player 2 is ready"
+    visit '/'
+    click_link 'New Game'
+    click_button 'Submit'
+    click_link "PVP Online"
+    click_link "Place Ships"
+    expect(page).to have_content "Please select ship location."
+    expect(page).to have_content "Aircraft Carrier: "
+    placev "A1"
+    expect(page).to have_content "Battleship: "
+    placeh "D5"
+    expect(page).to have_content "Cruiser: "
+    placev "C1"
+    expect(page).to have_content "Destroyer: "
+    placeh "I5"
+    expect(page).to have_content "Submarine: "
+    placeh "J1"
+    expect(page).to have_content "Are you ready?"
+  end
+end
+
 def placev coord
   fill_in "location", with: coord
   select "vertically", :from => "direction"

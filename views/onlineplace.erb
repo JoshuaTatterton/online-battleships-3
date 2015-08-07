@@ -1,15 +1,21 @@
 <div>
   <center>
-      <% p2 = ($game).player_2.board.ships.map { |x| (x.type) } %>
     Please select ship location.
-    <br><pre> <%= $game.own_board_view(($game).player_1) %> </pre><br>
-    <% if !(@p).include?(:destroyer) %>
-      
-      <form action="/online/p1place" method="post">
-
+    <pre> 
+    <% if @player == session[:p1] %>
+      <%= $game.own_board_view(($game).player_1) %>
     <% else %>
-
+      <%= $game.own_board_view(($game).player_2) %> 
+    <% end %>
+    </pre><br>
+    <% if !(@p).include?(:destroyer) && (@player == session[:p1]) %>
+      <form action="/online/p1place" method="post">
+    <% elsif !(@p).include?(:destroyer) && (@player == session[:p2]) %>
+      <form action="/online/p2place" method="post">
+    <% elsif @player == session[:p1] %>
       <form action="/online/playp1" method="post"> 
+    <% elsif @player == session[:p2] %>
+      <form action="/online/playp2" method="post">
     <% end %>
 
       <% if !(@p).include?(:aircraft_carrier)%>

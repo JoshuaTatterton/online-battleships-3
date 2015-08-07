@@ -1,12 +1,12 @@
 <div>
   <center>
-    <% if session[:p1] %>
+    <% if session[:p2] %>
+      Apologies online game already in progress 
+      <% $players -= 1 %>
+    <% elsif session[:p1] %>
       Welcome <%=session[:p2]=session["player#{$players}"]%>, we've been waiting for you.<br> Please place your ships
       <% $p2 = true %>
       <a href='/online/p2place'><button type="button">Place Ships</button></a>
-    <% elsif session[:p2] %>
-      Apologies online game already in progress 
-      <% $players -= 1 %>
     <% else %>
       Welcome <%=session[:p1]=session["player#{$players}"]%>, please place your ships while waiting for a second player to join.<br>
       <a href='/online/p1place'><button type="button">Place Ships</button></a>

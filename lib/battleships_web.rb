@@ -26,30 +26,54 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   get "/online/p1place" do
+    @player = session[:p1]
     @p=($game).player_1.board.ships.map { |x| (x.type) }
     erb :onlineplace
   end
 
   get "/online/p2place" do
+    @player = session[:p2]
     @p=($game).player_2.board.ships.map { |x| (x.type) }
     erb :onlineplace
   end
-  
+
   post "/online/p1place" do
-    @p=($game).player_1.board.ships.map { |x| (x.type) }
-    
-    if !(@p).include?(:aircraft_carrier)
+    @player = session[:p1]
+    p=($game).player_1.board.ships.map { |x| (x.type) }
+    if !p.include?(:aircraft_carrier)
       ($game).player_1.place_ship Ship.aircraft_carrier, params[:location].capitalize.to_sym, params[:direction].to_sym
-    elsif !(@p).include?(:battleship)
+    elsif !p.include?(:battleship)
       ($game).player_1.place_ship Ship.battleship, params[:location].capitalize.to_sym, params[:direction].to_sym
-    elsif !(@p).include?(:cruiser)
+    elsif !p.include?(:cruiser)
       ($game).player_1.place_ship Ship.cruiser, params[:location].capitalize.to_sym, params[:direction].to_sym
-    elsif !(@p).include?(:destroyer)
+    elsif !p.include?(:destroyer)
       ($game).player_1.place_ship Ship.destroyer, params[:location].capitalize.to_sym, params[:direction].to_sym
-    else
-      ($game).player_1.place_ship Ship.submarine, params[:location].capitalize.to_sym, params[:direction].to_sym
     end
+    @p=($game).player_1.board.ships.map { |x| (x.type) }
     erb :onlineplace
+  end
+  post "/online/p2place" do
+    @player = session[:p2]
+    p=($game).player_2.board.ships.map { |x| (x.type) }
+    if !p.include?(:aircraft_carrier)
+      ($game).player_2.place_ship Ship.aircraft_carrier, params[:location].capitalize.to_sym, params[:direction].to_sym
+    elsif !p.include?(:battleship)
+      ($game).player_2.place_ship Ship.battleship, params[:location].capitalize.to_sym, params[:direction].to_sym
+    elsif !p.include?(:cruiser)
+      ($game).player_2.place_ship Ship.cruiser, params[:location].capitalize.to_sym, params[:direction].to_sym
+    elsif !p.include?(:destroyer)
+      ($game).player_2.place_ship Ship.destroyer, params[:location].capitalize.to_sym, params[:direction].to_sym
+    end
+    @p=($game).player_2.board.ships.map { |x| (x.type) }
+    erb :onlineplace
+  end
+  post "/online/playp1" do
+    ($game).player_1.place_ship Ship.submarine, params[:location].capitalize.to_sym, params[:direction].to_sym 
+    erb :playp1
+  end
+  post "/online/playp2" do 
+    ($game).player_2.place_ship Ship.submarine, params[:location].capitalize.to_sym, params[:direction].to_sym
+    erb :playp2
   end
 
   get '/play' do   

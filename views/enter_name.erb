@@ -3,8 +3,7 @@
   <% if @name %>
       <% $players += 1 %>
       <% if @name != "" %>
-        <b><u>Hello, <%= @name %></u></b>
-        <% session["player#{$players}"] = @name %>
+        <b><u>Hello, <%= session["player#{$players}"] = @name %></u></b>
       <% else %>
         <b><u>Hello, <%= session["player#{$players}"] = "Player #{$players}" %></u></b>
       <% end %>
